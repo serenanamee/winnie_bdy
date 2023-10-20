@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>简易问答</title>
+    <style>
+        /* 在这里添加你的CSS样式 */
+    </style>
+</head>
+<body>
+    <div id="question1">
+        <h2>问题 1: 你最喜欢的颜色是什么？</h2>
+        <ul>
+            <li><input type="radio" name="q1" value="a">红色</li>
+            <li><input type="radio" name="q1" value="b">蓝色</li>
+            <li><input type="radio" name="q1" value="c">绿色</li>
+        </ul>
+        <button onclick="checkAnswer(1)">提交答案</button>
+    </div>
+
+    <div id="question2" style="display: none;">
+        <h2>问题 2: 2 + 2 = ?</h2>
+        <input type="text" id="q2-answer">
+        <button onclick="checkAnswer(2)">提交答案</button>
+    </div>
+
+    <!-- 添加其他问题的类似结构 -->
+
+    <script>
+        let currentQuestion = 1;
+
+        function checkAnswer(questionNumber) {
+            if (questionNumber === 1) {
+                const selectedAnswer = document.querySelector('input[name="q1"]:checked');
+                if (selectedAnswer && selectedAnswer.value === "b") {
+                    alert("回答正确！"); // 或者显示提示框
+                    document.getElementById('question2').style.display = 'block';
+                } else {
+                    alert("回答错误，请再试一次。");
+                }
+            } else if (questionNumber === 2) {
+                const userAnswer = document.getElementById('q2-answer').value;
+                if (userAnswer === "4") {
+                    alert("回答正确！"); // 或者显示提示框
+                    // 在这里可以添加上传照片的功能
+                    // 显示下一个问题，以此类推
+                } else {
+                    alert("回答错误，请再试一次。");
+                }
+            }
+
+            // 添加其他问题的类似逻辑
+        }
+    </script>
+</body>
+</html>
