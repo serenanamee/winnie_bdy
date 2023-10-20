@@ -72,9 +72,9 @@
 <body>
   <div class="container">
     <div class="question" id="question2">
-        <h1>Q2：What's Emily's address in the USA?</h1>
+        <h1>Q3：What's Emily's license plate number?</h1>
         <div class="image-container">
-            <img src="p2.png" alt="Centered Image">
+            <img src="p3.png" alt="Centered Image">
         </div>
         <div class="options" id="options2">
         </div>
@@ -83,7 +83,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
       // 添加第二题的选项内容，以及答案的处理代码
-      const correctAnswers2 = ['624 E Rosewood Ct, Ontario'];
+      const correctAnswers2 = ['8GQZ532'];
       const options2 = correctAnswers2.slice();
       for (let i = 0; i < 3; i++) {
           let randomOption;
@@ -111,7 +111,7 @@
       });
 
       function generateRandomOption2() {
-          const randomOptions = ['5085 Oxford Ln, Ontario', '2569 Chino Hills Pkwy unit D, Chino Hills', '16180 Grassland Ave, Chino'];
+          const randomOptions = ['Winnie 車牌', 'Ivan的車牌2', 'Ivan的車牌1'];
           return randomOptions[Math.floor(Math.random() * randomOptions.length)];
       }
 
