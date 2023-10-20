@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>問答頁面</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             background-image: url('bg.png'); /* 預設背景圖案 */
@@ -13,8 +14,10 @@
             font-family: Arial, sans-serif;
         }
         .container {
-            text-align: center;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 让容器占满整个视口高度 */
         }
         .question {
             background-color: white;
@@ -22,27 +25,58 @@
             border-radius: 10px;
         }
         .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* 每行两列 */
+          gap: 10px; /* 可选，添加间距 */
         }
         .option {
-            background-color: #f0f0f0;
+            background-color: #3498db; /* 蓝色背景 */
+            color: #fff; /* 白色字体颜色 */
             padding: 10px;
             margin: 10px;
             border-radius: 5px;
             cursor: pointer;
+            /* width: 200px; */
+        }
+        .option:nth-child(2) {
+            background-color: #2ecc71; /* 绿色背景 */
+        }
+
+        .option:nth-child(3) {
+            background-color: #e74c3c; /* 红色背景 */
+        }
+
+        .option:nth-child(4) {
+            background-color: #f1c40f; /* 黄色背景 */
         }
         .option img {
             max-width: 100%;
         }
+        .image-container {
+            text-align: center;
+            margin-top: 20px; /* 调整上边距根据需要 */
+        }
+
+        .image-container img {
+            max-width: 25%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .question h1 {
+            text-align: center; /* 添加这一行以使标题居中对齐 */
+        }
+
+
     </style>
 </head>
 <body>
     <div class="container">
         <div class="question">
             <h1>第一題：Serena 和 Emily 的生日</h1>
+            <div class="image-container">
+              <img src="q1.png" alt="Centered Image">
+            </div>
             <div class="options" id="options1">
             </div>
         </div>
@@ -50,19 +84,26 @@
             <h2>恭喜，答對了！</h2>
         </div>
         <div class="question" id="question2" style="display: none;">
-            <h1>第二題：Serena 和 Emily 美國家地址</h1>
+            <h1>第二題：Emily 美國家地址</h1>
             <div class="options" id="options2">
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        const correctAnswers1 = ['6 Jun.', '4 Feb'];
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        const correctAnswers1 = ['19 Jun. / 4 Feb'];
         const options1 = correctAnswers1.slice();
         for (let i = 0; i < 3; i++) {
-            options1.push(generateRandomOption());
+            options1.push(generateRandomOption1());
         }
-        options1.sort(() => Math.random() - 0.5);
+        shuffleArray(options1);
 
         const optionsContainer1 = document.getElementById('options1');
 
@@ -74,12 +115,16 @@
             optionsContainer1.appendChild(optionElement);
         });
 
-        const correctAnswers2 = ['5085 Oxford Ln, Ontario, CA 91762', '624 E Rosewood Ct, Ontario, CA 91764'];
+        const correctAnswers2 = ['624 E Rosewood Ct, Ontario, CA 91764'];
         const options2 = correctAnswers2.slice();
         for (let i = 0; i < 3; i++) {
-            options2.push(generateRandomOption());
+            let randomOption;
+            do {
+                randomOption = generateRandomOption2();
+            } while (options2.includes(randomOption));
+            options2.push(randomOption);
         }
-        options2.sort(() => Math.random() - 0.5);
+        shuffleArray(options2);
 
         const optionsContainer2 = document.getElementById('options2');
 
@@ -92,27 +137,41 @@
         });
 
         function showHint(answer, nextQuestionId) {
-            if (correctAnswers1.includes(answer)) {
-                document.getElementById('hint').style.display = 'block';
-                // 在這裡彈出提示框
-                alert('Please go to this address: 1526 Manley Dr, San Gabriel, CA 91776');
-                document.getElementById(nextQuestionId).style.display = 'block';
-            } else if (correctAnswers2.includes(answer)) {
-                // Handle the second question's correct answer here
-            } else {
-                alert('答案不正確，請再試一次。');
-            }
-        }
+          if (correctAnswers1.includes(answer)) {
+              document.getElementById('hint').style.display = 'block';
 
-        function generateRandomOption() {
-            const randomOptions = ['其他選項1', '其他選項2', '其他選項3', '其他選項4'];
-            return randomOptions[Math.floor(Math.random() * randomOptions.length)];
-        }
+              // 使用SweetAlert2顯示提示框
+              Swal.fire({
+                  title: '提示',
+                  text: 'Please go to this address: 1526 Manley Dr, San Gabriel, CA 91776',
+                  icon: 'info',
+                  confirmButtonText: '確定'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      document.getElementById(nextQuestionId).style.display = 'block';
+                  }
+              });
+          } else if (correctAnswers2.includes(answer)) {
+              // Handle the second question's correct answer here
+          } else {
+              Swal.fire('錯誤', '答案不正確，請再試一次。', 'error');
+          }
+      }
 
-        // 隨機設置背景圖片
-        const backgroundImages = ['bg.png', 'bg.png', 'bg.png'];
-        const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-        document.body.style.backgroundImage = `url(${randomBackground})`;
+      function generateRandomOption1() {
+          const randomOptions = ['23 Jan. / 12 Sep', '8 Mar. / 15 Nov', '14 Apr. / 29 Jul'];
+          return randomOptions[Math.floor(Math.random() * randomOptions.length)];
+      }
+
+      function generateRandomOption2() {
+          const randomOptions = ['5085 Oxford Ln, Ontario, CA 91762', '2569 Chino Hills Pkwy unit D, Chino Hills, CA 91709, United States', '16180 Grassland Ave, Chino, CA 91708'];
+          return randomOptions[Math.floor(Math.random() * randomOptions.length)];
+      }
+
+      // 隨機設置背景圖片
+      const backgroundImages = ['bg.png', 'bg.png', 'bg.png'];
+      const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+      document.body.style.backgroundImage = `url(${randomBackground})`;
     </script>
 </body>
 </html>
