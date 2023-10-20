@@ -1,55 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>简易问答</title>
+    <meta charset="UTF-8">
+    <title>問答頁面</title>
     <style>
-        /* 在这里添加你的CSS样式 */
+        body {
+            background-image: url('bg.png'); /* 預設背景圖案 */
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .option {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option img {
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
-    <div id="question1">
-        <h2>问题 1: 你最喜欢的颜色是什么？</h2>
-        <ul>
-            <li><input type="radio" name="q1" value="a">红色</li>
-            <li><input type="radio" name="q1" value="b">蓝色</li>
-            <li><input type="radio" name="q1" value="c">绿色</li>
-        </ul>
-        <button onclick="checkAnswer(1)">提交答案</button>
+    <div class="container">
+        <div class="question">
+            <h1>第一題：Serena 和 Emily 的生日</h1>
+            <div class="options" id="options1">
+            </div>
+        </div>
+        <div id="hint" style="display: none;">
+            <h2>恭喜，答對了！</h2>
+        </div>
+        <div class="question" id="question2" style="display: none;">
+            <h1>第二題：Serena 和 Emily 美國家地址</h1>
+            <div class="options" id="options2">
+            </div>
+        </div>
     </div>
-
-    <div id="question2" style="display: none;">
-        <h2>问题 2: 2 + 2 = ?</h2>
-        <input type="text" id="q2-answer">
-        <button onclick="checkAnswer(2)">提交答案</button>
-    </div>
-
-    <!-- 添加其他问题的类似结构 -->
 
     <script>
-        let currentQuestion = 1;
-
-        function checkAnswer(questionNumber) {
-            if (questionNumber === 1) {
-                const selectedAnswer = document.querySelector('input[name="q1"]:checked');
-                if (selectedAnswer && selectedAnswer.value === "b") {
-                    alert("回答正确！"); // 或者显示提示框
-                    document.getElementById('question2').style.display = 'block';
-                } else {
-                    alert("回答错误，请再试一次。");
-                }
-            } else if (questionNumber === 2) {
-                const userAnswer = document.getElementById('q2-answer').value;
-                if (userAnswer === "4") {
-                    alert("回答正确！"); // 或者显示提示框
-                    // 在这里可以添加上传照片的功能
-                    // 显示下一个问题，以此类推
-                } else {
-                    alert("回答错误，请再试一次。");
-                }
-            }
-
-            // 添加其他问题的类似逻辑
+        const correctAnswers1 = ['6 Jun.', '4 Feb'];
+        const options1 = correctAnswers1.slice();
+        for (let i = 0; i < 3; i++) {
+            options1.push(generateRandomOption());
         }
+        options1.sort(() => Math.random() - 0.5);
+
+        const optionsContainer1 = document.getElementById('options1');
+
+        options1.forEach((option) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.textContent = option;
+            optionElement.onclick = () => showHint(option, 'question2');
+            optionsContainer1.appendChild(optionElement);
+        });
+
+        const correctAnswers2 = ['5085 Oxford Ln, Ontario, CA 91762', '624 E Rosewood Ct, Ontario, CA 91764'];
+        const options2 = correctAnswers2.slice();
+        for (let i = 0; i < 3; i++) {
+            options2.push(generateRandomOption());
+        }
+        options2.sort(() => Math.random() - 0.5);
+
+        const optionsContainer2 = document.getElementById('options2');
+
+        options2.forEach((option) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.textContent = option;
+            optionElement.onclick = () => showHint(option);
+            optionsContainer2.appendChild(optionElement);
+        });
+
+        function showHint(answer, nextQuestionId) {
+            if (correctAnswers1.includes(answer)) {
+                document.getElementById('hint').style.display = 'block';
+                // 在這裡彈出提示框
+                alert('Please go to this address: 1526 Manley Dr, San Gabriel, CA 91776');
+                document.getElementById(nextQuestionId).style.display = 'block';
+            } else if (correctAnswers2.includes(answer)) {
+                // Handle the second question's correct answer here
+            } else {
+                alert('答案不正確，請再試一次。');
+            }
+        }
+
+        function generateRandomOption() {
+            const randomOptions = ['其他選項1', '其他選項2', '其他選項3', '其他選項4'];
+            return randomOptions[Math.floor(Math.random() * randomOptions.length)];
+        }
+
+        // 隨機設置背景圖片
+        const backgroundImages = ['bg.png', 'bg.png', 'bg.png'];
+        const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+        document.body.style.backgroundImage = `url(${randomBackground})`;
     </script>
 </body>
 </html>
