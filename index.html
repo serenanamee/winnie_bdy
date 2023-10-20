@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>問答頁面</title>
+    <title>Winnie Happy Birthday</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
       body {
@@ -72,7 +72,7 @@
 <body>
     <div class="container">
         <div class="question" id="question1">
-            <h1>第一題：Serena 和 Emily 的生日</h1>
+            <h1>Q1：What are Serena and Emily's birthdays?</h1>
             <div class="image-container">
                 <img src="q1.png" alt="Centered Image">
             </div>
@@ -137,10 +137,10 @@
         function showHint(answer, nextQuestionId) {
             if (correctAnswers1.includes(answer)) {
                 Swal.fire({
-                    title: '提示',
+                    title: 'Notice',
                     html: 'Please go to this address:<br><p style="margin-bottom: 5px">1526 Manley Dr, San Gabriel, CA 91776</p>',
                     icon: 'info',
-                    confirmButtonText: '確定'
+                    confirmButtonText: 'OK!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // 用户已确认，打开新窗口或跳转到另一页
@@ -151,7 +151,7 @@
             } else if (correctAnswers2.includes(answer)) {
                 // 处理第二题的正确答案
             } else {
-                Swal.fire('错误', '答案不正确，请再试一次。', 'error');
+              Swal.fire('wrong!', 'Try again', 'error');
             }
         }
 

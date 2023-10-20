@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>第二題</title>
+    <title>Winnie Happy Birthday</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
       body {
@@ -72,7 +72,7 @@
 <body>
   <div class="container">
     <div class="question" id="question2">
-        <h1>第二題：Emily 美國地址</h1>
+        <h1>Q2：What's Emily's address in the USA?</h1>
         <div class="image-container">
             <img src="q1.png" alt="Centered Image">
         </div>
@@ -118,10 +118,10 @@
       function showHint(answer) {
           if (correctAnswers2.includes(answer)) {
               Swal.fire({
-                  title: '提示',
+                  title: 'Notice',
                   html: 'Please go to this address:<br><p style="margin-bottom: 5px">250 W Valley Blvd, San Gabriel</p>',
                   icon: 'info',
-                  confirmButtonText: '確定'
+                  confirmButtonText: 'OK!'
               }).then((result) => {
                   if (result.isConfirmed) {
                       // 用户已确认，可以添加相关的操作，例如跳转到其他页面
@@ -130,7 +130,7 @@
               });
           } else {
               // 处理答案不正确的情况
-              Swal.fire('错误', '答案不正确，请再试一次。', 'error');
+              Swal.fire('wrong!', 'Try again', 'error');
           }
       }
 
