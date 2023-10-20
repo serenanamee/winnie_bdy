@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>第二題</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+      body {
+            background-image: url('bg.png'); /* 預設背景圖案 */
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 让容器占满整个视口高度 */
+        }
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .options {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* 每行两列 */
+          gap: 10px; /* 可选，添加间距 */
+          margin-top: 10px;
+        }
+        .option {
+            background-color: #3498db; /* 蓝色背景 */
+            color: #fff; /* 白色字体颜色 */
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            /* width: 200px; */
+        }
+        .option:nth-child(2) {
+            background-color: #2ecc71; /* 绿色背景 */
+        }
+
+        .option:nth-child(3) {
+            background-color: #e74c3c; /* 红色背景 */
+        }
+
+        .option:nth-child(4) {
+            background-color: #f1c40f; /* 黄色背景 */
+        }
+        .option img {
+            max-width: 100%;
+        }
+        .image-container {
+            text-align: center;
+            margin-top: 20px; /* 调整上边距根据需要 */
+        }
+
+        .image-container img {
+            max-width: 25%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .question h1 {
+            text-align: center; /* 添加这一行以使标题居中对齐 */
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="question" id="question2">
+        <h1>第二題：Emily 美國地址</h1>
+        <div class="image-container">
+            <img src="q1.png" alt="Centered Image">
+        </div>
+        <div class="options" id="options2">
+        </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+      // 添加第二题的选项内容，以及答案的处理代码
+      const correctAnswers2 = ['624 E Rosewood Ct, Ontario'];
+      const options2 = correctAnswers2.slice();
+      for (let i = 0; i < 3; i++) {
+          let randomOption;
+          do {
+              randomOption = generateRandomOption2();
+          } while (options2.includes(randomOption));
+          options2.push(randomOption);
+      }
+      function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+          }
+      }
+      shuffleArray(options2);
+
+      const optionsContainer2 = document.getElementById('options2');
+
+      options2.forEach((option) => {
+          const optionElement = document.createElement('div');
+          optionElement.className = 'option';
+          optionElement.textContent = option;
+          optionElement.onclick = () => showHint(option);
+          optionsContainer2.appendChild(optionElement);
+      });
+
+      function generateRandomOption2() {
+          const randomOptions = ['5085 Oxford Ln, Ontario', '2569 Chino Hills Pkwy unit D, Chino Hills', '16180 Grassland Ave, Chino'];
+          return randomOptions[Math.floor(Math.random() * randomOptions.length)];
+      }
+
+      function showHint(answer) {
+          if (correctAnswers2.includes(answer)) {
+              Swal.fire({
+                  title: '提示',
+                  html: 'Please go to this address:<br><p style="margin-bottom: 5px">250 W Valley Blvd, San Gabriel</p>',
+                  icon: 'info',
+                  confirmButtonText: '確定'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      // 用户已确认，可以添加相关的操作，例如跳转到其他页面
+                      // window.location.href = '其他页面的 URL';
+                  }
+              });
+          } else {
+              // 处理答案不正确的情况
+              Swal.fire('错误', '答案不正确，请再试一次。', 'error');
+          }
+      }
+
+  </script>
+</body>
+</html>

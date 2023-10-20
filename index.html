@@ -5,7 +5,7 @@
     <title>問答頁面</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
-        body {
+      body {
             background-image: url('bg.png'); /* 預設背景圖案 */
             background-size: cover;
             background-attachment: fixed;
@@ -28,6 +28,7 @@
           display: grid;
           grid-template-columns: repeat(2, 1fr); /* 每行两列 */
           gap: 10px; /* 可选，添加间距 */
+          margin-top: 10px;
         }
         .option {
             background-color: #3498db; /* 蓝色背景 */
@@ -66,36 +67,23 @@
         .question h1 {
             text-align: center; /* 添加这一行以使标题居中对齐 */
         }
-
-
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="question">
+        <div class="question" id="question1">
             <h1>第一題：Serena 和 Emily 的生日</h1>
             <div class="image-container">
-              <img src="q1.png" alt="Centered Image">
+                <img src="q1.png" alt="Centered Image">
             </div>
             <div class="options" id="options1">
-            </div>
-        </div>
-        <div id="hint" style="display: none;">
-            <h2>恭喜，答對了！</h2>
-        </div>
-        <div class="question" id="question2" style="display: none;">
-            <h1>第二題：Emily 美國家地址</h1>
-            <div class="options" id="options2">
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
+            // 随机排序数组函数保持不变
         }
 
         const correctAnswers1 = ['19 Jun. / 4 Feb'];
@@ -115,7 +103,6 @@
             optionsContainer1.appendChild(optionElement);
         });
 
-        const correctAnswers2 = ['624 E Rosewood Ct, Ontario, CA 91764'];
         const options2 = correctAnswers2.slice();
         for (let i = 0; i < 3; i++) {
             let randomOption;
@@ -126,7 +113,6 @@
         }
         shuffleArray(options2);
 
-        const optionsContainer2 = document.getElementById('options2');
 
         options2.forEach((option) => {
             const optionElement = document.createElement('div');
@@ -136,42 +122,50 @@
             optionsContainer2.appendChild(optionElement);
         });
 
+        const question1 = document.getElementById('question1');
+
+        uploadButton.addEventListener('click', () => {
+            fileUpload.click();
+        });
+
+        fileUpload.addEventListener('change', () => {
+            if (fileUpload.files.length > 0) {
+                question2.style.display = 'block';
+            }
+        });
+
         function showHint(answer, nextQuestionId) {
-          if (correctAnswers1.includes(answer)) {
-              document.getElementById('hint').style.display = 'block';
+            if (correctAnswers1.includes(answer)) {
+                Swal.fire({
+                    title: '提示',
+                    html: 'Please go to this address:<br><p style="margin-bottom: 5px">1526 Manley Dr, San Gabriel, CA 91776</p>',
+                    icon: 'info',
+                    confirmButtonText: '確定'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 用户已确认，打开新窗口或跳转到另一页
+                        window.open('upload.html', '_blank');
+                    }
+                });
 
-              // 使用SweetAlert2顯示提示框
-              Swal.fire({
-                  title: '提示',
-                  text: 'Please go to this address: 1526 Manley Dr, San Gabriel, CA 91776',
-                  icon: 'info',
-                  confirmButtonText: '確定'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      document.getElementById(nextQuestionId).style.display = 'block';
-                  }
-              });
-          } else if (correctAnswers2.includes(answer)) {
-              // Handle the second question's correct answer here
-          } else {
-              Swal.fire('錯誤', '答案不正確，請再試一次。', 'error');
-          }
-      }
+            } else if (correctAnswers2.includes(answer)) {
+                // 处理第二题的正确答案
+            } else {
+                Swal.fire('错误', '答案不正确，请再试一次。', 'error');
+            }
+        }
 
-      function generateRandomOption1() {
-          const randomOptions = ['23 Jan. / 12 Sep', '8 Mar. / 15 Nov', '14 Apr. / 29 Jul'];
-          return randomOptions[Math.floor(Math.random() * randomOptions.length)];
-      }
+        function generateRandomOption1() {
+            const randomOptions = ['23 Jan. / 12 Sep', '8 Mar. / 15 Nov', '14 Apr. / 29 Jul'];
+            return randomOptions[Math.floor(Math.random() * randomOptions.length)];
+        }
+ 
 
-      function generateRandomOption2() {
-          const randomOptions = ['5085 Oxford Ln, Ontario, CA 91762', '2569 Chino Hills Pkwy unit D, Chino Hills, CA 91709, United States', '16180 Grassland Ave, Chino, CA 91708'];
-          return randomOptions[Math.floor(Math.random() * randomOptions.length)];
-      }
+        const backgroundImages = ['bg.png', 'bg.png', 'bg.png'];
+        const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+        document.body.style.backgroundImage = `url(${randomBackground})`;
 
-      // 隨機設置背景圖片
-      const backgroundImages = ['bg.png', 'bg.png', 'bg.png'];
-      const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-      document.body.style.backgroundImage = `url(${randomBackground})`;
+        
     </script>
 </body>
 </html>
