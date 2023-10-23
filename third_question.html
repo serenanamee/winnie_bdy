@@ -122,17 +122,15 @@
           if (correctAnswers2.includes(answer)) {
               Swal.fire({
                   title: 'Notice',
-                  html: 'Please go to 1415 Plaza Dr, West Covina',
+                  html: 'Dear Winnie your birthday gift will delivred on 25th Oct',
                   icon: 'info',
                   confirmButtonText: 'OK!'
               }).then((result) => {
                   if (result.isConfirmed) {
-                      // 用户已确认，跳转到下一页
-                      window.location.href = 'third_question.html'; // 替换为第三题的页面URL
+                      window.location.href = 'third_question.html'; 
                   }
               });
           } else {
-              // 处理答案不正确的情况
               Swal.fire('wrong!', 'Try again', 'error');
           }
       }
