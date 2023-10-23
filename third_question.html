@@ -115,25 +115,38 @@
           return randomOptions[Math.floor(Math.random() * randomOptions.length)];
       }
 
-      // 添加第二题的选项内容，以及答案的处理代码
-      // ...
-
       function showHint(answer) {
-          if (correctAnswers2.includes(answer)) {
-              Swal.fire({
-                  title: 'Notice',
-                  html: 'Dear Winnie your birthday gift will delivred on 25th Oct',
-                  icon: 'info',
-                  confirmButtonText: 'OK!'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      window.location.href = 'third_question.html'; 
-                  }
-              });
-          } else {
-              Swal.fire('wrong!', 'Try again', 'error');
-          }
-      }
+        if (correctAnswers2.includes(answer)) {
+          Swal.fire({
+              title: 'Notice',
+              html: 'Dear Winnie <br> your birthday gift will be delivered on 25th Oct',
+              icon: 'info',
+              confirmButtonText: 'OK!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                // 在按下"OK"後，播放影片
+                  playVideo();
+              }
+          });
+        } else {
+          Swal.fire('Wrong!', 'Try again', 'error');
+        }
+       }
+
+         // 播放影片的函數
+        function playVideo() {
+            const videoElement = document.createElement('video');
+            videoElement.src = 'video.mp4'; // 請確保這個路徑是正確的
+            videoElement.width = 640;
+            videoElement.height = 360;
+            videoElement.controls = true;
+            videoElement.autoplay = true; // 自動播放
+            videoElement.style.marginTop = '20px'; // 調整影片的上邊距
+
+            const questionElement = document.getElementById('question2');
+            questionElement.innerHTML = ''; // 清空問題容器
+            questionElement.appendChild(videoElement); // 插入影片元素
+        }
 
 
   </script>
